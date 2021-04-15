@@ -30,6 +30,7 @@
 	ProxyPassReverse	/	http://localhost:5000/
 </VirtualHost>
 ```
+* `pip install -r requirements.txt`
 * Generate the sites by running all cells of the generator notebook
 * `cd site/`
 * `npm install`
