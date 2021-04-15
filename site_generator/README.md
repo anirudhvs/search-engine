@@ -11,22 +11,22 @@
 * Add the following vhost configurations to apache:
 ```apache
 <VirtualHost 127.0.0.1:80>
-	ServerName	        site1.adsa-project.local
-	ProxyPass           /	http://localhost:5000/
+	ServerName	site1.adsa-project.local
+	ProxyPass     		/	http://localhost:5000/
 	ProxyPassReverse	/	http://localhost:5000/
 </VirtualHost>
 ```
 ```apache
 <VirtualHost 127.0.0.1:80>
-	ServerName	        site2.adsa-project.local
-	ProxyPass           /	http://localhost:5000/
+	ServerName	site2.adsa-project.local
+	ProxyPass           	/	http://localhost:5000/
 	ProxyPassReverse	/	http://localhost:5000/
 </VirtualHost>
 ```
 ```apache
 <VirtualHost 127.0.0.1:80>
-	ServerName          site3.adsa-project.local
-	ProxyPass		    /	http://localhost:5000/
+	ServerName	site3.adsa-project.local
+	ProxyPass		/	http://localhost:5000/
 	ProxyPassReverse	/	http://localhost:5000/
 </VirtualHost>
 ```
