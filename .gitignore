@@ -1,0 +1,4 @@
+node_modules
+markov*.json
+site*.json
+site_generator/site/pages/*.html
