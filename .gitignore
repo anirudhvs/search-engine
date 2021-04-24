@@ -3,3 +3,6 @@ node_modules
 markov*.json
 site*.json
 site_generator/site/pages/*.html
+.vscode
+env
+site_data.js
