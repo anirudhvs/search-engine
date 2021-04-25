@@ -6,3 +6,4 @@ site_generator/site/pages/*.html
 .vscode
 env
 site_data.js
+dist/

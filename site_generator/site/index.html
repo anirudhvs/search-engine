@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="icon" type="image/png" href="/images/icon.png" /> -->
+    <style type="text/css">
+      body,
+      html {
+        height: 100%;
+        width: 100%;
+        margin: -10px;
+        padding: 0;
+        border: 0;
+      }
+      nav {
+        position: absolute;
+        background-color: white;
+        margin: 0;
+        padding: 10px;
+        border: 0;
+        top: 0;
+        text-align: center;
+        height: 35px;
+        width: 100%;
+        left: 0;
+        font-size: 20px;
+      }
+      div {
+        top: 100px;
+        position: absolute;
+        background-color: white;
+        padding: 10px;
+        left: 10%;
+        width: 80%;
+        height: 30%;
+        margin: 0px;
+        border: 0px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        float: left;
+        border-radius: 5px;
+      }
+      input {
+        min-height: 40px;
+      }
+      button {
+        position: absolute;
+        transform: translateX(-50%);
+        bottom: 10px;
+        height: 30px;
+        width: 80px;
+      }
+      section {
+        position: relative;
+        min-width: 200px;
+        top: 20px;
+        background-color: orange;
+        height: 40px;
+        font-size: 30px;
+        padding: 3px;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body bgcolor="#eee">
+    <nav>Search Engine</nav>
+    <div>
+      <form>
+        <input type="text" id="box" placeholder="Search Something..." />
+        <section>Enter Something</section>
+        <button id="button">Submit</button>
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script>
+      document.querySelector("#button").onclick = async (e) => {
+        e.preventDefault();
+        word = document.querySelector("#box").value;
+        document.querySelector("section").innerText = "Searching...";
+        let { data } = await axios.post("/search", {
+          word,
+        });
+        document.querySelector("section").innerText = data;
+        document.querySelector("#box").value = null;
+      };
+    </script>
+  </body>
+</html>
