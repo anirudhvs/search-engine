@@ -8,9 +8,11 @@ class TrieNode {
     }
     this.isEndWord = false;
     this.char = char;
+    this.url = [];
   }
-  markAsLeaf() {
+  markAsLeaf(url) {
     this.isEndWord = true;
+    this.url.push(url);
   }
   unMarkAsLeaf() {
     this.isEndWord = false;
@@ -25,7 +27,7 @@ class Trie {
   getIndex(t) {
     return t.charCodeAt(0) - "a".charCodeAt(0);
   }
-  insert(key) {
+  insert(key, url) {
     if (key == null) {
       return;
     }
@@ -40,7 +42,7 @@ class Trie {
       }
       currentNode = currentNode.children[index];
     }
-    currentNode.markAsLeaf();
+    currentNode.markAsLeaf(url);
     console.log(chalk.grey("'" + key + "' inserted"));
   }
   search(key) {
@@ -59,26 +61,26 @@ class Trie {
       currentNode = currentNode.children[index];
     }
     if (currentNode != null && currentNode.isEndWord) {
-      return true;
+      return currentNode.url;
     }
-    return false;
+    return [];
   }
 }
 
 trieHead = new Trie();
 triePtag = new Trie();
 
-function Head(data) {
+function Head(data, url) {
   data = data.split(" ");
   Object.values(data).forEach((datum) => {
-    trieHead.insert(datum);
+    trieHead.insert(datum, url);
   });
 }
 
-function Ptag(data) {
+function Ptag(data, url) {
   data = data.split(" ");
   Object.values(data).forEach((datum) => {
-    triePtag.insert(datum);
+    triePtag.insert(datum, url);
   });
 }
 
