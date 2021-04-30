@@ -89,7 +89,6 @@ class Trie {
     if (!found) {
       return [];
     }
-    console.log(currentNode.char);
     const suggestions = [];
     let tracker = "";
 

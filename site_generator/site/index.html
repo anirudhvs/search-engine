@@ -5,66 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <link rel="icon" type="image/png" href="/images/icon.png" /> -->
     <style type="text/css">
-      body,
-      html {
-        height: 100%;
-        width: 100%;
-        margin: -10px;
-        padding: 0;
-        border: 0;
-      }
-      nav {
-        position: absolute;
-        background-color: white;
-        margin: 0;
-        padding: 10px;
-        border: 0;
-        top: 0;
-        text-align: center;
-        height: 35px;
-        width: 100%;
-        left: 0;
-        font-size: 20px;
-      }
-      .div {
+      #links {
+        position: relative;
+        width: 80%;
         top: 100px;
-        position: absolute;
-        background-color: white;
+        margin: auto;
+        padding: 30px;
+        text-align: center;
+        background-color: rgb(191, 211, 211);
+        width: fit-content;
+        border-radius: 30px;
+        display: none;
+      }
+
+      aside {
         padding: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        /* width: 80%; */
-        /* height: 30%; */
-        margin: 0px;
-        border: 0px;
-        display: flex;
+      }
+
+      .div {
+        margin-top: 100px;
+        margin-left: auto;
+        margin-right: auto;
         justify-content: center;
         text-align: center;
-        float: left;
-        border-radius: 5px;
+        background-color: antiquewhite;
+        padding: 20px;
+        border-radius: 10px;
+        width: fit-content;
       }
-      input {
-        min-height: 40px;
-      }
-      button {
-        position: absolute;
-        transform: translateX(-50%);
-        bottom: 10px;
-        height: 30px;
-        width: 80px;
-      }
+
       section {
-        position: relative;
-        min-width: 200px;
-        top: 20px;
-        background-color: orange;
-        height: 40px;
-        font-size: 10px;
-        margin-bottom: 40px;
-        padding: 3px;
-        color: white;
-        border-radius: 5px;
+        padding-top: 30px;
       }
+
       * {
         box-sizing: border-box;
       }
@@ -128,16 +101,16 @@
     </style>
   </head>
   <body bgcolor="#eee">
-    <nav>Search Engine</nav>
     <div class="div">
       <form autocomplete="off">
-        <section>Enter Something</section>
         <div class="autocomplete" style="width: 300px">
           <input id="box" type="text" placeholder="Search" />
         </div>
         <input type="submit" id="button" value="search" />
+        <section>Enter Something</section>
       </form>
     </div>
+    <div id="links"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
     <script>
       function autocomplete(inp) {
@@ -226,7 +199,22 @@
         let { data } = await axios.post("/search", {
           word,
         });
-        document.querySelector("section").innerText = data;
+        let ele = document.querySelector("#links");
+        ele.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          var aside = document.createElement("aside");
+          var a = document.createElement("a");
+          var link = document.createTextNode(`${data[i]}`);
+          a.appendChild(link);
+          a.target = "_blank";
+          a.href = `${data[i]}`;
+          aside.appendChild(a);
+          ele.appendChild(aside);
+        }
+        ele.style.display = "block";
+        document.querySelector(
+          "section"
+        ).innerText = `Found ${data.length} results`;
         document.querySelector("#box").value = null;
       };
     </script>
