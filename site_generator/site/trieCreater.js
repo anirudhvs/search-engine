@@ -28,6 +28,7 @@ class Trie {
     return t.charCodeAt(0) - "a".charCodeAt(0);
   }
   insert(key, url) {
+    if (!/^[a-zA-Z]+$/.test(key)) return;
     if (key == null) {
       return;
     }
@@ -65,20 +66,65 @@ class Trie {
     }
     return [];
   }
+  suggest(key) {
+    if (key == null) {
+      return;
+    }
+    if (!/^[a-zA-Z]+$/.test(key)) return [];
+    key = key.toLowerCase();
+    let currentNode = this.root;
+    let found = true;
+    let index = 0;
+
+    for (let level = 0; level < key.length; level++) {
+      index = this.getIndex(key[level]);
+
+      if (currentNode.children[index] == null) {
+        found = false;
+        break;
+      }
+      currentNode = currentNode.children[index];
+    }
+
+    if (!found) {
+      return [];
+    }
+    console.log(currentNode.char);
+    const suggestions = [];
+    let tracker = "";
+
+    function recurse(node) {
+      if (node) {
+        tracker += node.char;
+
+        if (node.isEndWord) {
+          let temp = key + tracker;
+          suggestions.push(temp);
+        }
+
+        node.children.forEach((child) => recurse(child));
+        tracker = tracker.slice(0, -1);
+      }
+    }
+
+    currentNode.children.forEach((child) => recurse(child));
+    if (currentNode.isEndWord) suggestions.push(key);
+    return suggestions.sort();
+  }
 }
 
 trieHead = new Trie();
 triePtag = new Trie();
 
 function Head(data, url) {
-  data = data.split(" ");
+  data = data.split(/[^A-Za-z]/);
   Object.values(data).forEach((datum) => {
     trieHead.insert(datum, url);
   });
 }
 
 function Ptag(data, url) {
-  data = data.split(" ");
+  data = data.split(/[^A-Za-z]/);
   Object.values(data).forEach((datum) => {
     triePtag.insert(datum, url);
   });

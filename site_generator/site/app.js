@@ -28,6 +28,14 @@ app.post("/search", (req, res) => {
   res.send(s);
 });
 
+app.post("/words", (req, res) => {
+  console.warn(req.body);
+  head = trie.trieHead.suggest(req.body.snip);
+  ptag = trie.trieHead.suggest(req.body.snip);
+  let union = [...new Set([...ptag, ...head])];
+  res.send(union);
+});
+
 app.get("/", (_, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
