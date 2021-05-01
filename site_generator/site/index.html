@@ -196,6 +196,7 @@
         e.preventDefault();
         word = document.querySelector("#box").value;
         document.querySelector("section").innerText = "Searching...";
+        let timeStart = Date.now();
         let { data } = await axios.post("/search", {
           word,
         });
@@ -211,10 +212,11 @@
           aside.appendChild(a);
           ele.appendChild(aside);
         }
-        ele.style.display = "block";
-        document.querySelector(
-          "section"
-        ).innerText = `Found ${data.length} results`;
+        let timeEnd = Date.now();
+        data.length ? (ele.style.display = "block") : null;
+        document.querySelector("section").innerText = `Found ${
+          data.length
+        } results in ${timeEnd - timeStart}ms`;
         document.querySelector("#box").value = null;
       };
     </script>
