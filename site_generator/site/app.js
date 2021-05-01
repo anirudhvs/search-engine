@@ -16,14 +16,14 @@ scraper.bfs();
 
 app.post("/search", (req, res) => {
   head = trie.trieHead.search(req.body.word);
-  ptag = trie.trieHead.search(req.body.word);
+  ptag = trie.triePtag.search(req.body.word);
   let union = [...new Set([...ptag, ...head])];
   res.send(union);
 });
 
 app.post("/words", (req, res) => {
   head = trie.trieHead.suggest(req.body.snip);
-  ptag = trie.trieHead.suggest(req.body.snip);
+  ptag = trie.triePtag.suggest(req.body.snip);
   let union = [...new Set([...ptag, ...head])];
   res.send(union);
 });
