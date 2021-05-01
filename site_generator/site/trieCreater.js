@@ -48,7 +48,7 @@ class Trie {
   }
   search(key) {
     if (key == null) {
-      return false;
+      return [];
     }
     key = key.toLowerCase();
     let currentNode = this.root;
@@ -57,7 +57,7 @@ class Trie {
     for (var level = 0; level < key.length; level++) {
       index = this.getIndex(key[level]);
       if (currentNode.children[index] == null) {
-        return false;
+        return [];
       }
       currentNode = currentNode.children[index];
     }
