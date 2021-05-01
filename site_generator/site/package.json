@@ -8,9 +8,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
-    "cheerio": "^1.0.0-rc.6"
+    "cheerio": "^1.0.0-rc.6",
+    "express": "^4.17.1"
   }
 }
