@@ -106,7 +106,8 @@
         <div class="autocomplete" style="width: 300px">
           <input id="box" type="text" placeholder="Search" />
         </div>
-        <input type="submit" id="button" value="search" />
+        <input type="submit" id="buttonTrie" value="search Trie" />
+        <input type="submit" id="buttonMap" value="search map" />
         <section>Enter Something</section>
       </form>
     </div>
@@ -123,7 +124,7 @@
           let { data } = await axios.post("/words", {
             snip: val,
           });
-          arr = data.slice(0, 10);
+          arr = data.slice(0, 100);
           closeAllLists();
           if (!val) {
             return false;
@@ -192,12 +193,12 @@
       }
       autocomplete(document.getElementById("box"));
 
-      document.querySelector("#button").onclick = async (e) => {
+      document.querySelector("#buttonTrie").onclick = async (e) => {
         e.preventDefault();
         word = document.querySelector("#box").value;
         document.querySelector("section").innerText = "Searching...";
         let timeStart = Date.now();
-        let { data } = await axios.post("/search", {
+        let { data } = await axios.post("/search/trie", {
           word,
         });
         let ele = document.querySelector("#links");
@@ -216,8 +217,33 @@
         data.length ? (ele.style.display = "block") : null;
         document.querySelector("section").innerText = `Found ${
           data.length
-        } results in ${timeEnd - timeStart}ms`;
-        document.querySelector("#box").value = null;
+        } results in ${timeEnd - timeStart}ms using trie`;
+      };
+      document.querySelector("#buttonMap").onclick = async (e) => {
+        e.preventDefault();
+        word = document.querySelector("#box").value;
+        document.querySelector("section").innerText = "Searching...";
+        let timeStart = Date.now();
+        let { data } = await axios.post("/search/map", {
+          word,
+        });
+        let timeEnd = Date.now();
+        let ele = document.querySelector("#links");
+        ele.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          var aside = document.createElement("aside");
+          var a = document.createElement("a");
+          var link = document.createTextNode(`${data[i]}`);
+          a.appendChild(link);
+          a.target = "_blank";
+          a.href = `${data[i]}`;
+          aside.appendChild(a);
+          ele.appendChild(aside);
+        }
+        data.length ? (ele.style.display = "block") : null;
+        document.querySelector("section").innerText = `Found ${
+          data.length
+        } results in ${timeEnd - timeStart}ms using map`;
       };
     </script>
   </body>

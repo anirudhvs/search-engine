@@ -3,7 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 
-const trie = require("./trieCreater");
+const trie = require("./trie");
 const scraper = require("./scraper");
 
 // Body Parser Middleware
@@ -14,7 +14,14 @@ app.use(bodyParser.json());
 
 scraper.bfs();
 
-app.post("/search", (req, res) => {
+app.post("/search/trie", (req, res) => {
+  head = trie.trieHead.search(req.body.word);
+  ptag = trie.triePtag.search(req.body.word);
+  let union = [...new Set([...ptag, ...head])];
+  res.send(union);
+});
+
+app.post("/search/map", (req, res) => {
   head = trie.trieHead.search(req.body.word);
   ptag = trie.triePtag.search(req.body.word);
   let union = [...new Set([...ptag, ...head])];

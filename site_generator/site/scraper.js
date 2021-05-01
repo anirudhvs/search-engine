@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 const chalk = require("chalk");
 
 let siteData = require("../site_data");
-let trieCreator = require("./trieCreater");
+let insert = require("./insert");
 let sitesToVisit = [];
 let visited = [];
 
@@ -22,11 +22,11 @@ const bfs = async () => {
     const $ = cheerio.load(res.data);
 
     $("h1").each((index, tag) => {
-      trieCreator.Head(tag.children[0].data, sitesToVisit[0]);
+      insert.Head(tag.children[0].data, sitesToVisit[0]);
     });
 
     $("p").each((index, tag) => {
-      trieCreator.Ptag(tag.children[0].data, sitesToVisit[0]);
+      insert.Ptag(tag.children[0].data, sitesToVisit[0]);
     });
 
     $("a").each((index, tag) => {

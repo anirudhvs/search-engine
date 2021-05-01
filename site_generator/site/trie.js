@@ -115,23 +115,7 @@ class Trie {
 trieHead = new Trie();
 triePtag = new Trie();
 
-function Head(data, url) {
-  data = data.split(/[^A-Za-z]/);
-  Object.values(data).forEach((datum) => {
-    trieHead.insert(datum, url);
-  });
-}
-
-function Ptag(data, url) {
-  data = data.split(/[^A-Za-z]/);
-  Object.values(data).forEach((datum) => {
-    triePtag.insert(datum, url);
-  });
-}
-
 module.exports = {
-  Head,
-  Ptag,
   triePtag,
   trieHead,
 };
