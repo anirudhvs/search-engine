@@ -1,16 +1,17 @@
 {
-  "name": "site",
-  "version": "1.0.0",
-  "description": "Test site for ADSA project",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "chalk": "^4.1.1",
-    "cheerio": "^1.0.0-rc.6",
-    "express": "^4.17.1"
-  }
+	"name": "site",
+	"version": "1.0.0",
+	"description": "Test site for ADSA project",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"dev": "nodemon app.js"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^0.21.1",
+		"chalk": "^4.1.1",
+		"cheerio": "^1.0.0-rc.6",
+		"express": "^4.17.1"
+	}
 }

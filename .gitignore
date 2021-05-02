@@ -4,6 +4,6 @@ markov*.json
 site*.json
 site_generator/site/pages/*.html
 .vscode
-env
+.venv
 site_data.js
 dist/
