@@ -70,6 +70,34 @@
         cursor: pointer;
       }
 
+      button {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        position: absolute;
+        bottom: 10px;
+      }
+
+      #pages {
+        right: 10px;
+      }
+
       .autocomplete-items {
         position: absolute;
         border: 1px solid #d4d4d4;
@@ -113,6 +141,8 @@
       </form>
     </div>
     <div id="links"></div>
+    <a href="/index.html"><button id="pages">Pages</button></a>
+    <a href="/chart/index.html"><button id="chart">Chart</button></a>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
     <script>
       function autocomplete(inp) {
