@@ -72,7 +72,7 @@ class Page:
 
 # %%
 # Config block
-SITE_COUNT = 1250
+SITE_COUNT = 1500
 MAX_LINKS_PER_PAGE = 15
 parent_sites = [
     'site1.adsa-project.local',
