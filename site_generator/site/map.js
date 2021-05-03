@@ -6,6 +6,8 @@ class map {
   }
 
   insert(string, url) {
+    if (!/^[a-zA-Z]+$/.test(string)) return;
+    string = string.toLowerCase();
     if (this.stringsmap[string]) {
       this.stringsmap[string].push(url);
       console.log(chalk.grey(url, "mapped to", string));

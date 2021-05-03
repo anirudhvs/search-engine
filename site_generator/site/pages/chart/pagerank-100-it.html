@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart Visualization</title>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"
+      integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg=="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      #myChart {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 60vh !important;
+        width: auto !important;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <center><h1>PageRank - 100 Iterations</h1></center>
+    <canvas id="myChart"></canvas>
+    <script>
+      var ctx = document.getElementById("myChart").getContext("2d");
+      const labels = [0, 100, 250, 500, 750, 1000, 1250, 1500]; //
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "trie",
+            data: [0, 26, 130.4, 571.6, 1423.8, 2879.6, 4704, 6603.2],
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1,
+          },
+        ],
+      };
+      const config = {
+        type: "line",
+        data: data,
+        options: {
+          plugins: {
+            legend: {
+              display: false,
+              labels: {
+                font: {
+                  size: 32,
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              ticks: {
+                color: "rgba(0,0,0,1)",
+                font: { size: 20 },
+              },
+            },
+            x: {
+              ticks: {
+                font: { size: 20 },
+                color: "rgba(0,0,0,1)",
+              },
+            },
+          },
+        },
+      };
+      var myChart = new Chart(ctx, config);
+    </script>
+  </body>
+</html>

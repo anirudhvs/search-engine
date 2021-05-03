@@ -232,6 +232,7 @@
         let { data } = await axios.post("/search/trie", {
           word,
         });
+        let timeEnd = Date.now();
         let ele = document.querySelector("#links");
         ele.innerHTML = "";
         for (var i = 0; i < data.length; i++) {
@@ -244,7 +245,6 @@
           aside.appendChild(a);
           ele.appendChild(aside);
         }
-        let timeEnd = Date.now();
         data.length ? (ele.style.display = "block") : null;
         document.querySelector("section").innerText = `Found ${
           data.length

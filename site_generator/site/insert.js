@@ -1,5 +1,5 @@
 const trie = require("./trie");
-const radix = require('./radix');
+const radix = require("./radix");
 const map = require("./map");
 
 function Head(data, url) {

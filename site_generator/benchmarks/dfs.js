@@ -7,31 +7,29 @@ let sitesToVisit = [];
 let visited = [];
 
 const dfs = async () => {
-	while (sitesToVisit.length !== 0 || siteData.length !== 0) {
-		let last = sitesToVisit.length - 1;
-		if (visited.indexOf(sitesToVisit[last]) !== -1) {
-			sitesToVisit.pop();
-			continue;
-		}
-		if (sitesToVisit.length === 0 && siteData.length !== 0) {
-			sitesToVisit.push(siteData[0].site_url);
-			last = 0;
-		}
+  while (sitesToVisit.length !== 0 || siteData.length !== 0) {
+    let last = sitesToVisit.length - 1;
+    if (visited.indexOf(sitesToVisit[last]) !== -1) {
+      sitesToVisit.pop();
+      continue;
+    }
+    if (sitesToVisit.length === 0 && siteData.length !== 0) {
+      sitesToVisit.push(siteData[0].site_url);
+      last = 0;
+    }
 
-		const res = await axios.get(sitesToVisit[last]);
+    const res = await axios.get(sitesToVisit[last]);
 
-		const $ = cheerio.load(res.data);
+    const $ = cheerio.load(res.data);
 
-		siteData = siteData.filter(
-			(site) => site.site_url !== sitesToVisit[last]
-		);
-		visited.push(sitesToVisit.pop());
+    siteData = siteData.filter((site) => site.site_url !== sitesToVisit[last]);
+    visited.push(sitesToVisit.pop());
 
-		$("a").each((index, tag) => {
-			var link = $(tag).attr("href");
-			sitesToVisit.push(link);
-		});
-	}
+    $("a").each((index, tag) => {
+      var link = $(tag).attr("href");
+      sitesToVisit.push(link);
+    });
+  }
 };
 t1 = Date.now();
 dfs();

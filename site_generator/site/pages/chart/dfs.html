@@ -25,18 +25,19 @@
   </head>
 
   <body>
-    <center><h1>Charts</h1></center>
+    <center><h1>Depth first search</h1></center>
     <canvas id="myChart"></canvas>
     <script>
       var ctx = document.getElementById("myChart").getContext("2d");
-      const labels = [10, 20, 30, 40, 50, 60]; //
+      const labels = [0, 100, 250, 500, 750, 1000, 1250, 1500]; //
       const data = {
         labels: labels,
         datasets: [
           {
-            data: [65, 59, 80, 81, 56, 55, 40], //
-            fill: true,
-            borderColor: "rgb(75, 192, 192)", //
+            label: "trie",
+            data: [92, 295.2, 512.6, 861.6, 1165, 1490, 1820.8, 2096.2],
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
             tension: 0.1,
           },
         ],
@@ -48,25 +49,23 @@
           plugins: {
             legend: {
               display: false,
-            },
-            title: {
-              display: true,
-              text: "Title", //
-              font: {
-                size: 32,
+              labels: {
+                font: {
+                  size: 32,
+                },
               },
             },
           },
           scales: {
             y: {
-              beginAtZero: true,
-              min: 0,
               ticks: {
                 color: "rgba(0,0,0,1)",
+                font: { size: 20 },
               },
             },
             x: {
               ticks: {
+                font: { size: 20 },
                 color: "rgba(0,0,0,1)",
               },
             },

@@ -1,11 +1,11 @@
 const chalk = require("chalk");
 
 class RadixNode {
-  constructor(edgeLabel, isWord=false) {
+  constructor(edgeLabel, isWord = false) {
     this.edgeLabel = edgeLabel;
     this.children = {};
     this.url = [];
-    
+
     this.isWord = isWord;
   }
 
@@ -17,7 +17,7 @@ class RadixNode {
 
 class RadixTree {
   constructor() {
-    this.root = new RadixNode('');
+    this.root = new RadixNode("");
   }
 
   getIndex(t) {
@@ -30,7 +30,6 @@ class RadixTree {
       return;
     }
     key = key.toLowerCase();
-    
 
     let currentNode = this.root;
 
@@ -47,22 +46,38 @@ class RadixTree {
           return;
         }
 
-        if (commonPrefix.length < edgeLabel.length && commonPrefix.length === key.substr(i).length) {
+        if (
+          commonPrefix.length < edgeLabel.length &&
+          commonPrefix.length === key.substr(i).length
+        ) {
           const newNode = new RadixNode(key.substr(i));
           newNode.markAsLeaf(url);
-          newNode.children[edgeLabel[commonPrefix.length]] = currentNode.children[currentCharacter]
-          newNode.children[edgeLabel[commonPrefix.length]].edgeLabel = edgeLabel.substr(commonPrefix.length);
+          newNode.children[edgeLabel[commonPrefix.length]] =
+            currentNode.children[currentCharacter];
+          newNode.children[
+            edgeLabel[commonPrefix.length]
+          ].edgeLabel = edgeLabel.substr(commonPrefix.length);
           currentNode.children[currentCharacter] = newNode;
           return;
         }
 
-        if (commonPrefix.length < edgeLabel.length && commonPrefix.length < key.substr(i).length) {
+        if (
+          commonPrefix.length < edgeLabel.length &&
+          commonPrefix.length < key.substr(i).length
+        ) {
           const inbetweenNode = new RadixNode(commonPrefix);
-          inbetweenNode.children[edgeLabel[commonPrefix.length]] = currentNode.children[currentCharacter]
-          inbetweenNode.children[edgeLabel[commonPrefix.length]].edgeLabel = edgeLabel.substr(commonPrefix.length);
+          inbetweenNode.children[edgeLabel[commonPrefix.length]] =
+            currentNode.children[currentCharacter];
+          inbetweenNode.children[
+            edgeLabel[commonPrefix.length]
+          ].edgeLabel = edgeLabel.substr(commonPrefix.length);
           currentNode.children[currentCharacter] = inbetweenNode;
-          inbetweenNode.children[key.substr(i)[commonPrefix.length]] = new RadixNode(key.substr(i + commonPrefix.length));
-          inbetweenNode.children[key.substr(i)[commonPrefix.length]].markAsLeaf(url);
+          inbetweenNode.children[
+            key.substr(i)[commonPrefix.length]
+          ] = new RadixNode(key.substr(i + commonPrefix.length));
+          inbetweenNode.children[key.substr(i)[commonPrefix.length]].markAsLeaf(
+            url
+          );
           return;
         }
 
@@ -103,7 +118,7 @@ class RadixTree {
   suggest(prefix) {
     prefix = prefix.toLowerCase();
 
-    let key = '';
+    let key = "";
     let currentNode = this.root;
     for (let i = 0; i < prefix.length; i++) {
       const character = prefix[i];
@@ -112,7 +127,10 @@ class RadixTree {
         const edgeLabel = currentNode.children[character].edgeLabel;
         const commonPrefix = getCommonPrefix(edgeLabel, prefix.substr(i));
 
-        if (commonPrefix.length !== edgeLabel.length && commonPrefix.length !== prefix.substr(i).length) {
+        if (
+          commonPrefix.length !== edgeLabel.length &&
+          commonPrefix.length !== prefix.substr(i).length
+        ) {
           return [];
         }
 
@@ -135,7 +153,10 @@ class RadixTree {
       }
 
       for (const character of Object.keys(startingNode.children)) {
-        dfs(startingNode.children[character], key.concat(startingNode.children[character].edgeLabel));
+        dfs(
+          startingNode.children[character],
+          key.concat(startingNode.children[character].edgeLabel)
+        );
       }
     }
 
@@ -146,7 +167,7 @@ class RadixTree {
 }
 
 function getCommonPrefix(a, b) {
-  let commonPrefix = '';
+  let commonPrefix = "";
   for (let i = 0; i < Math.min(a.length, b.length); i++) {
     if (a[i] !== b[i]) {
       return commonPrefix;
