@@ -15,7 +15,6 @@ const pageRank = (iterations, damping) => {
 
 	for (let i = 0; i < iterations; i++) {
 		siteData.forEach((site, index, array) => {
-			console.log(site);
 			const inboundLinks = siteData.filter((insite) => {
 				return insite.links.includes(index);
 			});
@@ -32,11 +31,15 @@ let result = {
 	iterations: [],
 	time: [],
 };
-for (let i = 1; i <= process.argv[2]; i++) {
-	let t1 = Date.now();
-	pageRank(i, 0.85);
-	let t2 = Date.now();
-	result.iterations.push(i);
-	result.time.push((t2 - t1) / 1000);
-}
-console.log(result);
+// for (let i = 1; i <= process.argv[2]; i++) {
+// 	let t1 = Date.now();
+// 	pageRank(i, 0.85);
+// 	let t2 = Date.now();
+// 	result.iterations.push(i);
+// 	result.time.push((t2 - t1) / 1000);
+// }
+// console.log(result);
+let t1 = Date.now();
+pageRank(100, 0.85);
+let t2 = Date.now();
+console.log(t2 - t1);
