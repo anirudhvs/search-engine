@@ -17,7 +17,7 @@ class map {
   }
 
   search(key) {
-    if (stringsmap[string]) return stringsmap[string];
+    if (this.stringsmap[key]) return this.stringsmap[key];
     else return [];
   }
 }

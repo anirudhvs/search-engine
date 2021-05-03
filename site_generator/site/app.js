@@ -44,8 +44,8 @@ app.post("/search/radix", (req, res) => {
 });
 
 app.post("/search/map", (req, res) => {
-	head = trie.trieHead.search(req.body.word);
-	ptag = trie.triePtag.search(req.body.word);
+	head = map.mapHead.search(req.body.word);
+	ptag = map.mapPtag.search(req.body.word);
 	let union = [...new Set([...ptag, ...head])];
 	union.sort(sortByRank);
 	res.send(union);
