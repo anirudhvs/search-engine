@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-
+var j = 0;
 class RadixNode {
   static nodeCount = 0;
   constructor(edgeLabel, isWord = false) {
@@ -44,6 +44,7 @@ class RadixTree {
         const commonPrefix = getCommonPrefix(edgeLabel, key.substr(i));
         if (edgeLabel === key.substr(i)) {
           currentNode.children[currentCharacter].markAsLeaf(url);
+          console.log(chalk.grey("'" + key + "' inserted into radix"));
           return;
         }
 
@@ -54,6 +55,7 @@ class RadixTree {
           const newNode = new RadixNode(key.substr(i));
           this.nodes.push(newNode);
           newNode.markAsLeaf(url);
+          console.log(chalk.grey("'" + key + "' inserted into radix"));
           newNode.children[edgeLabel[commonPrefix.length]] =
             currentNode.children[currentCharacter];
           newNode.children[
@@ -84,6 +86,7 @@ class RadixTree {
           inbetweenNode.children[key.substr(i)[commonPrefix.length]].markAsLeaf(
             url
           );
+          console.log(chalk.grey("'" + key + "' inserted into radix"));
           return;
         }
 
@@ -93,6 +96,7 @@ class RadixTree {
         const newNode = new RadixNode(key.substr(i));
         this.nodes.push(newNode);
         newNode.markAsLeaf(url);
+        console.log(chalk.grey("'" + key + "' inserted into radix"));
         currentNode.children[currentCharacter] = newNode;
         return;
       }
