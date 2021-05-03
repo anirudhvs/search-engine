@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart Visualization</title>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"
+      integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg=="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      #myChart {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 60vh !important;
+        width: auto !important;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <center><h1>Charts</h1></center>
+    <canvas id="myChart"></canvas>
+    <script>
+      var ctx = document.getElementById("myChart").getContext("2d");
+      const labels = [10, 20, 30, 40, 50, 60]; //
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            data: [65, 59, 80, 81, 56, 55, 40], //
+            fill: true,
+            borderColor: "rgb(75, 192, 192)", //
+            tension: 0.1,
+          },
+        ],
+      };
+      const config = {
+        type: "line",
+        data: data,
+        options: {
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: true,
+              text: "Title", //
+              font: {
+                size: 32,
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              min: 0,
+              ticks: {
+                color: "rgba(0,0,0,1)",
+              },
+            },
+            x: {
+              ticks: {
+                color: "rgba(0,0,0,1)",
+              },
+            },
+          },
+        },
+      };
+      var myChart = new Chart(ctx, config);
+    </script>
+  </body>
+</html>
