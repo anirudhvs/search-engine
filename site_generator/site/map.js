@@ -8,11 +8,11 @@ class map {
   insert(string, url) {
     if (this.stringsmap[string]) {
       this.stringsmap[string].push(url);
-      console.log(chalk.grey(url, "maped to", string));
+      console.log(chalk.grey(url, "mapped to", string));
     } else {
       this.stringsmap[string] = [];
       this.stringsmap[string].push(url);
-      console.log(chalk.magenta(url, "maped to new", string));
+      console.log(chalk.magenta(url, "mapped to new", string));
     }
   }
 
