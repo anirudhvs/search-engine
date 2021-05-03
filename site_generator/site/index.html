@@ -107,6 +107,7 @@
           <input id="box" type="text" placeholder="Search" />
         </div>
         <input type="submit" id="buttonTrie" value="search Trie" />
+        <input type="submit" id="buttonRadix" value="search Radix" />
         <input type="submit" id="buttonMap" value="search map" />
         <section>Enter Something</section>
       </form>
@@ -218,6 +219,32 @@
         document.querySelector("section").innerText = `Found ${
           data.length
         } results in ${timeEnd - timeStart}ms using trie`;
+      };
+      document.querySelector("#buttonRadix").onclick = async (e) => {
+        e.preventDefault();
+        word = document.querySelector("#box").value;
+        document.querySelector("section").innerText = "Searching...";
+        let timeStart = Date.now();
+        let { data } = await axios.post("/search/radix", {
+          word,
+        });
+        let ele = document.querySelector("#links");
+        ele.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          var aside = document.createElement("aside");
+          var a = document.createElement("a");
+          var link = document.createTextNode(`${data[i]}`);
+          a.appendChild(link);
+          a.target = "_blank";
+          a.href = `${data[i]}`;
+          aside.appendChild(a);
+          ele.appendChild(aside);
+        }
+        let timeEnd = Date.now();
+        data.length ? (ele.style.display = "block") : null;
+        document.querySelector("section").innerText = `Found ${
+          data.length
+        } results in ${timeEnd - timeStart}ms using radix tree`;
       };
       document.querySelector("#buttonMap").onclick = async (e) => {
         e.preventDefault();

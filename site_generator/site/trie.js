@@ -44,7 +44,7 @@ class Trie {
       currentNode = currentNode.children[index];
     }
     currentNode.markAsLeaf(url);
-    console.log(chalk.grey("'" + key + "' inserted"));
+    console.log(chalk.grey("'" + key + "' inserted into trie"));
   }
   search(key) {
     if (key == null) {

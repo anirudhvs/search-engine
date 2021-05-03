@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const trie = require("./trie");
+const radix = require('./radix');
+const map = require('./map');
 const scraper = require("./scraper");
 const pageRank = require("./pagerank");
 const ranking = pageRank(100, 0.85);
@@ -28,6 +30,14 @@ function sortByRank(site1, site2) {
 app.post("/search/trie", (req, res) => {
 	head = trie.trieHead.search(req.body.word);
 	ptag = trie.triePtag.search(req.body.word);
+	let union = [...new Set([...ptag, ...head])];
+	union.sort(sortByRank);
+	res.send(union);
+});
+
+app.post("/search/radix", (req, res) => {
+	head = radix.radixTreeHead.search(req.body.word);
+	ptag = radix.radixTreePtag.search(req.body.word);
 	let union = [...new Set([...ptag, ...head])];
 	union.sort(sortByRank);
 	res.send(union);
