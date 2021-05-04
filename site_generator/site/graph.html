@@ -56,6 +56,7 @@
             color: {
               background: colorMap[page.parent_site],
             },
+            value: page.rank,
           });
           for (let j = 0; j < page.links.length; j++) {
             edgeList.push({
@@ -78,7 +79,17 @@
             color: {
               border: "grey",
             },
-            shape: "box",
+            font: {
+              size: 10,
+            },
+            scaling: {
+              customScalingFunction: function (min, max, total, value) {
+                return (value / max);
+              },
+              min: 1,
+              max: 50,
+            },
+            shape: "dot",
           },
           interaction: { hover: false },
           physics: {
@@ -89,6 +100,13 @@
           },
           edges: {
             color: "grey",
+            arrows: {
+              to: {
+                enabled: true,
+                scaleFactor: 0.5,
+              },
+            },
+            width: 0.5,
           },
         };
         new vis.Network(container, data, options);

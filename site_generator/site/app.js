@@ -76,7 +76,7 @@ app.get("/graph", (_, res) => {
 
 app.get("/data", (_, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.sendFile(path.join(__dirname, "..", "site_data.json"));
+  res.sendFile(path.join(__dirname, "site_rank_data.json"));
 });
 
 app.get("/radix_tree_data", (_, res) => {

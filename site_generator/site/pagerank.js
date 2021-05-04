@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 let siteData = require("../site_data.json");
 
 const inboundContribution = (inboundLinks) => {
@@ -26,6 +28,8 @@ const pageRank = (iterations, damping) => {
   siteData.forEach((site) => {
     ranking[site.site_url] = site.rank;
   });
+  fs.writeFileSync('./site_rank_data.json', JSON.stringify(siteData));
+
   //console.log(ranking);
   return ranking;
 };
