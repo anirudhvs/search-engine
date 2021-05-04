@@ -1,6 +1,7 @@
 const chalk = require("chalk");
 
 class TrieNode {
+  static nodeCount = 0;
   constructor(char) {
     this.children = [];
     for (var i = 0; i < 26; i++) {
@@ -8,6 +9,7 @@ class TrieNode {
     }
     this.isEndWord = false;
     this.char = char;
+    this.id = TrieNode.nodeCount++;
     this.url = [];
   }
   markAsLeaf(url) {
@@ -22,6 +24,7 @@ class TrieNode {
 class Trie {
   constructor() {
     this.root = new TrieNode("");
+    this.nodes = [this.root];
   }
 
   getIndex(t) {
@@ -40,11 +43,12 @@ class Trie {
 
       if (currentNode.children[index] == null) {
         currentNode.children[index] = new TrieNode(key[level]);
+        this.nodes.push(currentNode.children[index]);
       }
       currentNode = currentNode.children[index];
     }
     currentNode.markAsLeaf(url);
-    console.log(chalk.grey("'" + key + "' inserted into trie"));
+    // console.log(chalk.grey("'" + key + "' inserted into trie"));
   }
   search(key) {
     if (key == null) {

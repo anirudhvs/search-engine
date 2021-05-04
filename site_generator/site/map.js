@@ -10,11 +10,11 @@ class map {
     string = string.toLowerCase();
     if (this.stringsmap[string]) {
       this.stringsmap[string].push(url);
-      console.log(chalk.grey(url, "mapped to", string));
+      // console.log(chalk.grey(url, "mapped to", string));
     } else {
       this.stringsmap[string] = [];
-      this.stringsmap[string].push(url);
-      console.log(chalk.magenta(url, "mapped to new", string));
+      // this.stringsmap[string].push(url);
+      // console.log(chalk.magenta(url, "mapped to new", string));
     }
   }
 

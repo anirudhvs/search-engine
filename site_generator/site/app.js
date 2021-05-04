@@ -8,6 +8,7 @@ const radix = require("./radix");
 const map = require("./map");
 const scraper = require("./scraper");
 const pageRank = require("./pagerank");
+const visualizer = require("./visualizer");
 const ranking = pageRank(100, 0.85);
 // Body Parser Middleware
 // parse application/x-www-form-urlencoded
@@ -15,7 +16,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-scraper.bfs();
+scraper.bfs().then(() => {
+  visualizer.visualize(radix.radixTreeHead.nodes, 'radix_tree_data');
+}).then(() => {
+  visualizer.visualize(trie.trieHead.nodes, 'trie_data');
+});
 
 function sortByRank(site1, site2) {
   if (ranking[site1] < ranking[site2]) {
@@ -72,6 +77,20 @@ app.get("/graph", (_, res) => {
 app.get("/data", (_, res) => {
   res.setHeader("Content-Type", "application/json");
   res.sendFile(path.join(__dirname, "..", "site_data.json"));
+});
+
+app.get("/radix_tree_data", (_, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.sendFile(path.join(__dirname, "radix_tree_data.json"));
+});
+
+app.get("/trie_data", (_, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.sendFile(path.join(__dirname, "trie_data.json"));
+});
+
+app.get("/visualization", (_, res) => {
+  res.sendFile(path.join(__dirname, "visualization.html"));
 });
 
 app.listen(5000);

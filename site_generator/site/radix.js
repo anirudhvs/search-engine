@@ -1,10 +1,12 @@
 const chalk = require("chalk");
 
 class RadixNode {
+  static nodeCount = 0;
   constructor(edgeLabel, isWord = false) {
     this.edgeLabel = edgeLabel;
     this.children = {};
     this.url = [];
+    this.id = RadixNode.nodeCount++;
 
     this.isWord = isWord;
   }
@@ -18,6 +20,7 @@ class RadixNode {
 class RadixTree {
   constructor() {
     this.root = new RadixNode("");
+    this.nodes = [this.root];
   }
 
   getIndex(t) {
@@ -49,6 +52,7 @@ class RadixTree {
           commonPrefix.length === key.substr(i).length
         ) {
           const newNode = new RadixNode(key.substr(i));
+          this.nodes.push(newNode);
           newNode.markAsLeaf(url);
           newNode.children[edgeLabel[commonPrefix.length]] =
             currentNode.children[currentCharacter];
@@ -64,6 +68,7 @@ class RadixTree {
           commonPrefix.length < key.substr(i).length
         ) {
           const inbetweenNode = new RadixNode(commonPrefix);
+          this.nodes.push(inbetweenNode);
           inbetweenNode.children[edgeLabel[commonPrefix.length]] =
             currentNode.children[currentCharacter];
           inbetweenNode.children[
@@ -73,6 +78,9 @@ class RadixTree {
           inbetweenNode.children[
             key.substr(i)[commonPrefix.length]
           ] = new RadixNode(key.substr(i + commonPrefix.length));
+          this.nodes.push(inbetweenNode.children[
+            key.substr(i)[commonPrefix.length]
+          ]);
           inbetweenNode.children[key.substr(i)[commonPrefix.length]].markAsLeaf(
             url
           );
@@ -83,6 +91,7 @@ class RadixTree {
         currentNode = currentNode.children[currentCharacter];
       } else {
         const newNode = new RadixNode(key.substr(i));
+        this.nodes.push(newNode);
         newNode.markAsLeaf(url);
         currentNode.children[currentCharacter] = newNode;
         return;

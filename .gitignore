@@ -2,6 +2,7 @@
 node_modules
 markov*.json
 site*.json
+*data.json
 site_generator/site/pages/*.html
 .vscode
 .venv
