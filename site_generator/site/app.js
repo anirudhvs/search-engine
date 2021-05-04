@@ -16,11 +16,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-scraper.bfs().then(() => {
-  visualizer.visualize(radix.radixTreeHead.nodes, 'radix_tree_data');
-}).then(() => {
-  visualizer.visualize(trie.trieHead.nodes, 'trie_data');
-});
+scraper
+  .bfs()
+  .then(() => {
+    visualizer.visualize(radix.radixTreeHead.nodes, "radix_tree_data");
+  })
+  .then(() => {
+    visualizer.visualize(trie.trieHead.nodes, "trie_data");
+  });
 
 function sortByRank(site1, site2) {
   if (ranking[site1] < ranking[site2]) {

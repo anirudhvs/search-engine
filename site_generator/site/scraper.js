@@ -8,7 +8,11 @@ let sitesToVisit = [];
 let visited = [];
 
 const bfs = async () => {
-  while (sitesToVisit.length !== 0) {
+  while (sitesToVisit.length !== 0 || siteData.length !== 0) {
+    if (sitesToVisit.length === 0 && siteData.length != 0) {
+      sitesToVisit.push(siteData[0].site_url);
+    }
+
     if (visited.indexOf(sitesToVisit[0]) !== -1) {
       sitesToVisit.shift();
       continue;
@@ -36,13 +40,14 @@ const bfs = async () => {
     siteData = siteData.filter((site) => site.site_url !== sitesToVisit[0]);
     visited.push(sitesToVisit.shift());
   }
-  if (sitesToVisit.length === 0 && siteData.length != 0) {
-    sitesToVisit.push(siteData[0].site_url);
-  }
 };
 
 const dfs = async () => {
-  while (sitesToVisit.length !== 0) {
+  while (sitesToVisit.length !== 0 || siteData.length !== 0) {
+    if (sitesToVisit.length === 0 && siteData.length != 0) {
+      sitesToVisit.push(siteData[0].site_url);
+    }
+
     const last = sitesToVisit.length - 1;
     if (visited.indexOf(sitesToVisit[last]) !== -1) {
       //console.log(chalk.red(`Sites to Visit: ${sitesToVisit.length}`))
@@ -66,9 +71,6 @@ const dfs = async () => {
       // console.log(chalk.grey(`Adding Site ${link}`));
       sitesToVisit.push(link);
     });
-  }
-  if (sitesToVisit.length === 0 && siteData.length != 0) {
-    sitesToVisit.push(siteData[0].site_url);
   }
 };
 sitesToVisit.push(siteData[0].site_url);
