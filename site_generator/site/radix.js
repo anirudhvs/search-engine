@@ -33,8 +33,6 @@ class RadixTree {
 
     let currentNode = this.root;
 
-    currentNode.markAsLeaf(url);
-
     for (let i = 0; i < key.length; i++) {
       const currentCharacter = key[i];
 
@@ -96,18 +94,18 @@ class RadixTree {
     if (key == null) {
       return [];
     }
-    console.log(key);
     key = key.toLowerCase();
     let currentNode = this.root;
 
-    for (var level = 0; level < key.length; level++) {
-      if (currentNode.edgeLabel.substr(1) == key.substr(level, key.length)) {
-        return currentNode.url;
-      }
+    for (var level = 0; level < key.length;) {
       if (currentNode.children[key[level]] == null) {
         return [];
       }
       currentNode = currentNode.children[key[level]];
+      level += currentNode.edgeLabel.length
+      if (level > key.length) {
+        return [];
+      }
     }
     if (currentNode != null) {
       return currentNode.url;
