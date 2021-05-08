@@ -125,56 +125,6 @@ class RadixTree {
     }
     return [];
   }
-
-  suggest(prefix) {
-    prefix = prefix.toLowerCase();
-
-    let key = "";
-    let currentNode = this.root;
-    for (let i = 0; i < prefix.length; i++) {
-      const character = prefix[i];
-
-      if (character in currentNode.children) {
-        const edgeLabel = currentNode.children[character].edgeLabel;
-        const commonPrefix = getCommonPrefix(edgeLabel, prefix.substr(i));
-
-        if (
-          commonPrefix.length !== edgeLabel.length &&
-          commonPrefix.length !== prefix.substr(i).length
-        ) {
-          return [];
-        }
-
-        key = key.concat(currentNode.children[character].edgeLabel);
-        i += currentNode.children[character].edgeLabel.length - 1;
-        currentNode = currentNode.children[character];
-      } else {
-        return [];
-      }
-    }
-
-    let keys = [];
-    function dfs(startingNode, key) {
-      if (startingNode.isWord) {
-        keys.push(key);
-      }
-
-      if (Object.keys(startingNode.children).length === 0) {
-        return;
-      }
-
-      for (const character of Object.keys(startingNode.children)) {
-        dfs(
-          startingNode.children[character],
-          key.concat(startingNode.children[character].edgeLabel)
-        );
-      }
-    }
-
-    dfs(currentNode, key);
-
-    return keys.sort();
-  }
 }
 
 function getCommonPrefix(a, b) {

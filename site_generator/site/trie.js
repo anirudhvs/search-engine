@@ -16,9 +16,6 @@ class TrieNode {
     this.isEndWord = true;
     this.url.push(url);
   }
-  unMarkAsLeaf() {
-    this.isEndWord = false;
-  }
 }
 
 class Trie {
@@ -112,7 +109,7 @@ class Trie {
 
     currentNode.children.forEach((child) => recurse(child));
     if (currentNode.isEndWord) suggestions.push(key);
-    return suggestions.sort();
+    return suggestions;
   }
 }
 
