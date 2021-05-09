@@ -1,9 +1,8 @@
 const chalk = require("chalk");
-var j = 0;
 class RadixNode {
   static nodeCount = 0;
-  constructor(edgeLabel, isWord = false) {
-    this.edgeLabel = edgeLabel;
+  constructor(label, isWord = false) {
+    this.label = label;
     this.children = {};
     this.url = [];
     this.id = RadixNode.nodeCount++;
@@ -11,7 +10,7 @@ class RadixNode {
     this.isWord = isWord;
   }
 
-  markAsLeaf(url) {
+  addUrlAndMarkAsWord(url) {
     this.isWord = true;
     this.url.push(url);
   }
@@ -27,96 +26,96 @@ class RadixTree {
     return t.charCodeAt(0) - "a".charCodeAt(0);
   }
 
-  insert(key, url) {
-    if (!/^[a-zA-Z]+$/.test(key)) return;
-    if (key == null) {
+  insert(word, url) {
+    if (!/^[a-zA-Z]+$/.test(word)) return;
+    if (word == null) {
       return;
     }
-    key = key.toLowerCase();
+    word = word.toLowerCase();
 
     let currentNode = this.root;
 
-    for (let i = 0; i < key.length; i++) {
-      const currentCharacter = key[i];
+    for (let i = 0; i < word.length; i++) {
+      const currentCharacter = word[i];
 
       if (currentCharacter in currentNode.children) {
-        const edgeLabel = currentNode.children[currentCharacter].edgeLabel;
-        const commonPrefix = getCommonPrefix(edgeLabel, key.substr(i));
-        if (edgeLabel === key.substr(i)) {
-          currentNode.children[currentCharacter].markAsLeaf(url);
-          console.log(chalk.grey("'" + key + "' inserted into radix"));
+        const child = currentNode.children[currentCharacter];
+        const commonPrefix = getCommonPrefix(child.label, word.substr(i));
+
+        if (child.label === word.substr(i)) {
+          child.addUrlAndMarkAsWord(url);
+
+          console.log(chalk.grey("'" + word + "' inserted into radix"));
           return;
         }
 
         if (
-          commonPrefix.length < edgeLabel.length &&
-          commonPrefix.length === key.substr(i).length
+          commonPrefix.length < child.label.length &&
+          commonPrefix.length === word.substr(i).length
         ) {
-          const newNode = new RadixNode(key.substr(i));
-          this.nodes.push(newNode);
-          newNode.markAsLeaf(url);
-          console.log(chalk.grey("'" + key + "' inserted into radix"));
-          newNode.children[edgeLabel[commonPrefix.length]] =
-            currentNode.children[currentCharacter];
-          newNode.children[
-            edgeLabel[commonPrefix.length]
-          ].edgeLabel = edgeLabel.substr(commonPrefix.length);
+          const newNode = new RadixNode(word.substr(i));
+          const childKey = child.label[commonPrefix.length];
+          newNode.addUrlAndMarkAsWord(url);
+          newNode.children[childKey] = child;
+          newNode.children[childKey].label = child.label.substr(commonPrefix.length);
           currentNode.children[currentCharacter] = newNode;
+
+          this.nodes.push(newNode);
+          console.log(chalk.grey("'" + word + "' inserted into radix"));
           return;
         }
 
         if (
-          commonPrefix.length < edgeLabel.length &&
-          commonPrefix.length < key.substr(i).length
+          commonPrefix.length < child.label.length &&
+          commonPrefix.length < word.substr(i).length
         ) {
           const inbetweenNode = new RadixNode(commonPrefix);
-          this.nodes.push(inbetweenNode);
-          inbetweenNode.children[edgeLabel[commonPrefix.length]] =
-            currentNode.children[currentCharacter];
-          inbetweenNode.children[
-            edgeLabel[commonPrefix.length]
-          ].edgeLabel = edgeLabel.substr(commonPrefix.length);
+
+          const leftChild = child;
+          const leftKey= leftChild.label[commonPrefix.length];
+          inbetweenNode.children[leftKey] = leftChild;
+          inbetweenNode.children[leftKey].label = leftChild.label.substr(commonPrefix.length);
           currentNode.children[currentCharacter] = inbetweenNode;
-          inbetweenNode.children[
-            key.substr(i)[commonPrefix.length]
-          ] = new RadixNode(key.substr(i + commonPrefix.length));
-          this.nodes.push(inbetweenNode.children[
-            key.substr(i)[commonPrefix.length]
-          ]);
-          inbetweenNode.children[key.substr(i)[commonPrefix.length]].markAsLeaf(
-            url
-          );
-          console.log(chalk.grey("'" + key + "' inserted into radix"));
+
+          const rightChild = new RadixNode(word.substr(i + commonPrefix.length));
+          const rightKey = word.substr(i)[commonPrefix.length];
+          inbetweenNode.children[rightKey] = rightChild;
+          inbetweenNode.children[rightKey].addUrlAndMarkAsWord(url);
+
+          this.nodes.push(inbetweenNode);
+          this.nodes.push(rightChild);
+          console.log(chalk.grey("'" + word + "' inserted into radix"));
           return;
         }
 
-        i += edgeLabel.length - 1;
-        currentNode = currentNode.children[currentCharacter];
+        i += child.label.length - 1;
+        currentNode = child;
       } else {
-        const newNode = new RadixNode(key.substr(i));
-        this.nodes.push(newNode);
-        newNode.markAsLeaf(url);
-        console.log(chalk.grey("'" + key + "' inserted into radix"));
+        const newNode = new RadixNode(word.substr(i));
+        newNode.addUrlAndMarkAsWord(url);
         currentNode.children[currentCharacter] = newNode;
+
+        this.nodes.push(newNode);
+        console.log(chalk.grey("'" + word + "' inserted into radix"));
         return;
       }
     }
   }
 
-  search(key) {
-    if (key == null) {
+  search(word) {
+    if (word == null) {
       return [];
     }
-    key = key.toLowerCase();
+    word = word.toLowerCase();
     let currentNode = this.root;
 
-    for (var level = 0; level < key.length;) {
-      if (currentNode.children[key[level]] == null) {
+    for (var i = 0; i < word.length;) {
+      if (currentNode.children[word[i]] == null) {
         return [];
       }
-      currentNode = currentNode.children[key[level]];
-      level += currentNode.edgeLabel.length
-      if (level > key.length) {
+      currentNode = currentNode.children[word[i]];
+      i += currentNode.label.length
+      if (i > word.length) {
         return [];
       }
     }

@@ -6,7 +6,7 @@ const visualize = (nodes, fileName) => {
     let node = nodes[i];
     nodeList.push({
       id: node.id,
-      label: node.edgeLabel ?? node.char
+      label: node.label ?? node.char
     });
     if (Array.isArray(node.children)) {
       for (let j = 0; j < node.children.length; j++) {
