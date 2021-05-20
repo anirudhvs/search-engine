@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graph Visualization</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css"
+      integrity="sha512-8OVtKyemDe8Koi/74dnSJughhkwnzqq217zUtUumyvx0Z0kF6H0YYFobH2kEYjKMNq2xNQyN64dnleqecTSL0A=="
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"
+      integrity="sha512-XHDcSyqhOoO2ocB7sKOCJEkUjw/pQCJViP1ynpy+EGh/LggzrP6U/V3a++LQTnZT7sCQKeHRyWHfhN2afjXjCg=="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      html,
+      body,
+      #visualization {
+        width: 100%;
+        height: 100%;
+        margin: 0 !important;
+        border: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="visualization"></div>
+
+    <script type="text/javascript">
+      fetch("/data")
+        .then((response) => response.json())
+        .then((data) => createNetwork(data));
+
+      const createNetwork = (data) => {
+        let edgeList = [],
+          nodeList = [];
+        const colorMap = {
+          "site1.adsa-project.local": "lightblue",
+          "site2.adsa-project.local": "lightgreen",
+          "site3.adsa-project.local": "lightpink",
+        };
+        for (let i = 0; i < data.length; i++) {
+          let page = data[i];
+          nodeList.push({
+            id: i,
+            label: page.title,
+            color: {
+              background: colorMap[page.parent_site],
+            },
+            value: page.rank,
+          });
+          for (let j = 0; j < page.links.length; j++) {
+            edgeList.push({
+              from: i,
+              to: page.links[j],
+            });
+          }
+        }
+        var nodes = new vis.DataSet(nodeList);
+        var edges = new vis.DataSet(edgeList);
+
+        var container = document.getElementById("visualization");
+        var data = {
+          nodes: nodes,
+          edges: edges,
+        };
+        var options = {
+          nodes: {
+            borderWidth: 1,
+            color: {
+              border: "grey",
+            },
+            font: {
+              size: 10,
+            },
+            scaling: {
+              customScalingFunction: function (min, max, total, value) {
+                return (value / max);
+              },
+              min: 1,
+              max: 50,
+            },
+            shape: "dot",
+          },
+          interaction: { hover: false },
+          physics: {
+            enabled: true,
+          },
+          layout: {
+            improvedLayout: true,
+          },
+          edges: {
+            color: "grey",
+            arrows: {
+              to: {
+                enabled: true,
+                scaleFactor: 0.5,
+              },
+            },
+            width: 0.5,
+          },
+        };
+        new vis.Network(container, data, options);
+      };
+    </script>
+  </body>
+</html>
