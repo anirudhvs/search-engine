@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chart Visualization</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"
+    integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg=="
+    crossorigin="anonymous"></script>
+
+  <style>
+    /* #myChart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 60vh !important;
+      width: auto !important;
+      transform: translate(-50%, -50%);
+    } */
+  </style>
+</head>
+
+<body>
+  <center>
+    <h1>DFS vs BFS</h1>
+  </center>
+  <canvas id="myChart"></canvas>
+  <script>
+    var ctx = document.getElementById("myChart").getContext("2d");
+    const labels = [0, 100, 250, 500, 750, 1000, 1250, 1500]; //
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "DFS",
+          data: [92, 295.2, 512.6, 861.6, 1165, 1490, 1820.8, 2096.2],
+          fill: false,
+          borderColor: "red",
+          tension: 0.1,
+        },
+        {
+          label: "BFS",
+          data: [98, 303.4, 520.8, 862.6, 1184.8, 1533, 1758.2, 2678.2],
+          fill: false,
+          borderColor: "rgb(5, 92, 192)",
+          tension: 0.1,
+        },
+      ],
+    };
+    const config = {
+      type: "line",
+      data: data,
+      options: {
+        plugins: {
+          legend: {
+            //   display: false,
+            labels: {
+              font: {
+                size: 32,
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            type: "linear",
+            ticks: {
+              color: "rgba(0,0,0,1)",
+              font: { size: 20 },
+            },
+          },
+          x: {
+            type: "linear",
+            ticks: {
+              font: { size: 20 },
+              color: "rgba(0,0,0,1)",
+            },
+          },
+        },
+      },
+    };
+    var myChart = new Chart(ctx, config);
+  </script>
+</body>
+
+</html>
