@@ -26,20 +26,12 @@ const pageRank = (iterations, damping) => {
   siteData.forEach((site) => {
     ranking[site.site_url] = site.rank;
   });
+  console.log(ranking)
 };
 let result = {
   iterations: [],
   time: [],
 };
-// for (let i = 1; i <= process.argv[2]; i++) {
-// 	let t1 = Date.now();
-// 	pageRank(i, 0.85);
-// 	let t2 = Date.now();
-// 	result.iterations.push(i);
-// 	result.time.push((t2 - t1) / 1000);
-// }
-// console.log(result);
-let t1 = Date.now();
-pageRank(100, 0.85);
-let t2 = Date.now();
-console.log(t2 - t1);
+
+
+pageRank(1, 0.85);
