@@ -114,16 +114,41 @@ class Trie {
 trieHead = new Trie();
 triePtag = new Trie();
 
-t1 = Date.now();
-siteData.forEach((site) => {
-	data = site.title.split(/[^A-Za-z]/);
-	Object.values(data).forEach((datum) => {
-		trieHead.insert(datum, site.site_url);
-	});
+var k=0, flag=0;
+for(var i=0;i<siteData.length;i++){
+	site = siteData[i]
 	data = site.body.split(/[^A-Za-z]/);
-	Object.values(data).forEach((datum) => {
+	for(var j=0;j<Object.values(data).length;j++){
+		datum = data[j]
 		triePtag.insert(datum, site.site_url);
-	});
-});
+		k++;
+		if(k>=process.argv[2]+100){
+			flag=1
+			break;
+		}
+	}
+	if(flag==1){
+		break
+	}
+}
+
+t1 = Date.now();
+var k=0, flag=0;
+for(var i=0;i<siteData.length;i++){
+	site = siteData[i]
+	data = site.body.split(/[^A-Za-z]/);
+	for(var j=0;j<Object.values(data).length;j++){
+		datum = data[j]
+		triePtag.search(datum);
+		k++;
+		if(k>=process.argv[2]){
+			flag=1
+			break;
+		}
+	}
+	if(flag==1){
+		break
+	}
+}
 t2 = Date.now();
 console.log(t2 - t1);

@@ -20,7 +20,7 @@ const bfs = (i, visited) => {
     }
   }
 };
-const bfsStart = () => {
+( () => {
   let visited = {}
   for (let i = 0; i < siteData.length; i++) {
     if (visited[i] !== undefined) {
@@ -28,5 +28,4 @@ const bfsStart = () => {
     }
     bfs(i, visited);
   }
-}
-bfsStart()
+})()

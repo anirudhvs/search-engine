@@ -1,21 +1,22 @@
 let siteData = require("../site_data");
 
-const dfs = (i, visited) => {
-  if (visited[siteData[i].site_url] !== undefined) return;
-  visited[siteData[i].site_url] = 1;
-  for (let j = 0; j < siteData[i].link_urls.length; j++) {
-    dfs(siteData[i].links[j], visited);
-  }
-}
-
-const startDFS = () => {
+(() => {
   let visited = {};
+  let stack = [];
   for (let i = 0; i < siteData.length; i++) {
-    if (visited[siteData[i].site_url] !== undefined) {
+    if (visited[i] !== undefined) {
       continue;
     }
-    dfs(i, visited);
+    stack.push(i);
+    while(stack.length!==0){
+      let top = stack.pop();
+      if (visited[top] !== undefined) {
+        continue;
+      } 
+      visited[top] = 1;
+      for(var j =0; j<siteData[top].links.length; j++){
+          stack.push(siteData[top].links[j]);
+      }
+    }
   }
-};
-
-startDFS();
+})()
