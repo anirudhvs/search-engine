@@ -8,14 +8,15 @@ let siteData = require("../site_data");
       continue;
     }
     stack.push(i);
-    while(stack.length!==0){
+    while (stack.length !== 0) {
       let top = stack.pop();
       if (visited[top] !== undefined) {
         continue;
-      } 
+      }
       visited[top] = 1;
-      for(var j =0; j<siteData[top].links.length; j++){
-          stack.push(siteData[top].links[j]);
+      // console.log(top)
+      for (var j = 0; j < siteData[top].links.length; j++) {
+        stack.push(siteData[top].links[j]);
       }
     }
   }

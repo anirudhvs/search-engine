@@ -37,7 +37,7 @@ const pageRank = (iterations, damping) => {
   while (iterations--) {
     let sum = 0;
     let preCalc = (1 - damping) / N;
-    console.log("preCalc", preCalc)
+    // console.log("preCalc", preCalc)
     let dp = 0;
     for (let i = 0; i < siteData.length; i++) {
       if (siteData[i].links.length === 0)
@@ -51,11 +51,11 @@ const pageRank = (iterations, damping) => {
       }
 
       siteData[i].rank = dp + preCalc + damping * inboundContribution;
-      console.log("rankset", i, siteData[i].rank)
+      // console.log("rankset", i, siteData[i].rank)
       sum += siteData[i].rank
     }
-    console.log("finally", iterations, sum)
+    // console.log("finally", iterations, sum)
   }
 };
 
-pageRank(100, 0.85);
+pageRank(2, 0.85);

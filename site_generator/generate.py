@@ -72,8 +72,8 @@ class Page:
 
 # %%
 # Config block
-SITE_COUNT = 10
-MAX_LINKS_PER_PAGE = 3
+SITE_COUNT = 10000
+MAX_LINKS_PER_PAGE = 1
 parent_sites = [
     'site1.adsa-project.local',
     'site2.adsa-project.local',
@@ -96,7 +96,7 @@ for i in range(SITE_COUNT):
         ),
         links=[
             random.randint(0, SITE_COUNT - 1)
-            for _ in range(0, random.randint(0, MAX_LINKS_PER_PAGE))
+            for _ in range(0,  MAX_LINKS_PER_PAGE)
         ]
     )
     pages.append(page)
