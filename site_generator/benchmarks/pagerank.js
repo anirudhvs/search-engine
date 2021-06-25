@@ -19,6 +19,7 @@ const pageRank = (iterations, damping) => {
       siteData[sink].inbound.push(i);
     }
   }
+
   for (let i = 0; i < siteData.length; i++) {
     if (siteData[i].inbound === undefined) siteData[i].inbound = [];
     let visited = {};
@@ -30,7 +31,7 @@ const pageRank = (iterations, damping) => {
     }
     siteData[i].inbound = unique;
     siteData[i].links = siteData[i].links.filter((e, pos, a) => a.indexOf(e) === pos && e !== i);
-    // console.log(i, siteData[i].links, siteData[i].inbound);
+    console.log(i, siteData[i].links, siteData[i].inbound);
   }
   // console.log(siteData)
 
@@ -40,22 +41,26 @@ const pageRank = (iterations, damping) => {
     // console.log("preCalc", preCalc)
     let dp = 0;
     for (let i = 0; i < siteData.length; i++) {
-      if (siteData[i].links.length === 0)
+      if (siteData[i].links.length === 0) {
+        console.log("adding", i, siteData[i].links)
         dp += (damping * siteData[i].rank) / N;
+      }
+      console.log("set dp", dp)
     }
+    console.log("pc and dp", preCalc, dp)
     for (let i = 0; i < siteData.length; i++) {
       let inboundContribution = 0;
       for (let j = 0; j < siteData[i].inbound.length; j++) {
-        // console.log(i, j, siteData[i].inbound[j], siteData[siteData[i].inbound[j]].rank, siteData[siteData[i].inbound[j]].links.length, siteData[siteData[i].inbound[j]].rank / siteData[siteData[i].inbound[j]].links.length);
+        console.log(i, j, siteData[i].inbound[j], siteData[siteData[i].inbound[j]].rank, siteData[siteData[i].inbound[j]].links.length, siteData[siteData[i].inbound[j]].rank / siteData[siteData[i].inbound[j]].links.length);
         inboundContribution += siteData[siteData[i].inbound[j]].rank / siteData[siteData[i].inbound[j]].links.length;
       }
 
       siteData[i].rank = dp + preCalc + damping * inboundContribution;
-      // console.log("rankset", i, siteData[i].rank)
+      console.log("rankset", i, siteData[i].rank)
       sum += siteData[i].rank
     }
-    // console.log("finally", iterations, sum)
+    console.log("finally", iterations, sum)
   }
 };
 
-pageRank(2, 0.85);
+pageRank(1, 0.85);
