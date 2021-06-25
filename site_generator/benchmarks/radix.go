@@ -7,7 +7,7 @@ import (
 	"os"
 	"regexp"
 	"sort"
-	"strconv"
+	//"strconv"
 	"strings"
 	"time"
 )
@@ -225,23 +225,26 @@ func main() {
 	json.Unmarshal(byteValue, &sites)
 
 	radixTree := initRadix()
-
-	// t1 := time.Now()
+	var sum time.Duration
 
 	for i := 0; i < len(sites); i++ {
 		sentence := strings.Split(sites[i].Body, " ")
 		for j := 0; j < len(sentence); j++ {
 			sentence[j] = strings.ToLower(sentence[j])
 			matched, _ := regexp.MatchString(`^[a-z]*$`, sentence[j])
-			fmt.Println(matched, sentence[j])
+			// fmt.Println(matched, sentence[j])
+			t1 := time.Now()
 			if matched {
 				radixTree.Insert(sentence[j])
 			}
+			t2 := time.Now()
+			elapsed := t2.Sub(t1)
+			sum += elapsed
 		}
 	}
 
-	t1 := time.Now()
-
+	//t1 := time.Now()
+/*
 	no_of_words, err := strconv.Atoi(os.Args[1])
 	k := 0
 	fl := 0
@@ -263,8 +266,8 @@ func main() {
 			break
 		}
 	}
-
-	t2 := time.Now()
-	elapsed := t2.Sub(t1)
-	fmt.Println(elapsed)
+*/
+	//t2 := time.Now()
+	//elapsed := t2.Sub(t1)
+	fmt.Println(sum)
 }

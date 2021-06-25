@@ -51,10 +51,10 @@ func main() {
 		}
 	}
 	for i := 0; i < len(sites); i++ {
-		fmt.Println(i, sites[i].Rank, sites[i].Links, sites[i].Inbound)
+		//fmt.Println(i, sites[i].Rank, sites[i].Links, sites[i].Inbound)
 	}
 
-	var iterations int = 10000
+	var iterations int = 100
 	var damping float64 = 0.85
 	for iterations > 0 {
 		var sum float64 = 0
@@ -62,23 +62,23 @@ func main() {
 		var dp float64 = 0
 		for i := 0; i < N; i++ {
 			if len(sites[i].Links) == 0 {
-				fmt.Println("adding", i, (damping*sites[i].Rank)/float64(N))
+				//fmt.Println("adding", i, (damping*sites[i].Rank)/float64(N))
 				dp += (damping * sites[i].Rank) / float64(N)
 			}
 		}
-		fmt.Println("precalc", preCalc, "dp", dp)
+		//fmt.Println("precalc", preCalc, "dp", dp)
 		for i := 0; i < N; i++ {
 			var inboundContribution float64 = 0
 			for j := 0; j < len(sites[i].Inbound); j++ {
-				fmt.Println(i, j, sites[i].Inbound[j], sites[sites[i].Inbound[j]].Rank, len(sites[sites[i].Inbound[j]].Links), sites[sites[i].Inbound[j]].Rank/float64(len(sites[sites[i].Inbound[j]].Links)))
+				//fmt.Println(i, j, sites[i].Inbound[j], sites[sites[i].Inbound[j]].Rank, len(sites[sites[i].Inbound[j]].Links), sites[sites[i].Inbound[j]].Rank/float64(len(sites[sites[i].Inbound[j]].Links)))
 				inboundContribution += sites[sites[i].Inbound[j]].Rank / float64(len(sites[sites[i].Inbound[j]].Links))
 			}
-			fmt.Println(dp, preCalc, damping, inboundContribution, dp+preCalc, damping*inboundContribution, dp+preCalc+damping*inboundContribution)
+			//fmt.Println(dp, preCalc, damping, inboundContribution, dp+preCalc, damping*inboundContribution, dp+preCalc+damping*inboundContribution)
 			sites[i].Rank = dp + preCalc + damping*inboundContribution
-			fmt.Println("setting", i, sites[i].Rank)
+			//fmt.Println("setting", i, sites[i].Rank)
 			sum += sites[i].Rank
 		}
-		fmt.Println("sum", sum)
+		//fmt.Println("sum", sum)
 		iterations--
 	}
 

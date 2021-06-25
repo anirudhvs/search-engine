@@ -72,7 +72,8 @@ class Page:
 
 # %%
 # Config block
-SITE_COUNT = 10
+import sys
+SITE_COUNT = int(sys.argv[1])
 MAX_LINKS_PER_PAGE = 1
 parent_sites = [
     'site1.adsa-project.local',
