@@ -38,39 +38,39 @@ mapPtag = new map();
 // t2 = Date.now();
 // console.log(t2 - t1);
 
-var k=0, flag=0;
-for(var i=0;i<siteData.length;i++){
+var k = 0, flag = 0;
+for (var i = 0; i < siteData.length; i++) {
 	site = siteData[i]
 	data = site.body.split(/[^A-Za-z]/);
-	for(var j=0;j<Object.values(data).length;j++){
+	for (var j = 0; j < Object.values(data).length; j++) {
 		datum = data[j]
 		mapPtag.insert(datum, site.site_url);
 		k++;
-		if(k>=process.argv[2]+100){
-			flag=1
+		if (k >= process.argv[2] + 100) {
+			flag = 1
 			break;
 		}
 	}
-	if(flag==1){
+	if (flag == 1) {
 		break
 	}
 }
 
 t1 = Date.now();
-var k=0, flag=0;
-for(var i=0;i<siteData.length;i++){
+var k = 0, flag = 0;
+for (var i = 0; i < siteData.length; i++) {
 	site = siteData[i]
 	data = site.body.split(/[^A-Za-z]/);
-	for(var j=0;j<Object.values(data).length;j++){
+	for (var j = 0; j < Object.values(data).length; j++) {
 		datum = data[j]
 		mapPtag.search(datum);
 		k++;
-		if(k>=process.argv[2]){
-			flag=1
+		if (k >= process.argv[2]) {
+			flag = 1
 			break;
 		}
 	}
-	if(flag==1){
+	if (flag == 1) {
 		break
 	}
 }

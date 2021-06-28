@@ -7,10 +7,15 @@ import (
 	"os"
 	"regexp"
 	"sort"
-	//"strconv"
+//	"strconv"
 	"strings"
 	"time"
+	"runtime"
 )
+
+func bToMb(b uint64) uint64 {
+    return b / 1024 / 1024
+}
 
 type Site struct {
 	Title      string   `json:"title"`
@@ -108,6 +113,16 @@ func longestPrefix(k1, k2 string) int {
 		}
 	}
 	return i
+}
+
+func PrintMemUsage() {
+        var m runtime.MemStats
+        runtime.ReadMemStats(&m)
+        // For info on each, see: https://golang.org/pkg/runtime/#MemStats
+        fmt.Printf("Alloc = %v MiB", bToMb(m.Alloc))
+        fmt.Printf("\tTotalAlloc = %v MiB", bToMb(m.TotalAlloc))
+        fmt.Printf("\tSys = %v MiB", bToMb(m.Sys))
+        fmt.Printf("\tNumGC = %v\n", m.NumGC)
 }
 
 func (t *Tree) Insert(val string) (interface{}, bool) {
@@ -227,34 +242,41 @@ func main() {
 	radixTree := initRadix()
 	var sum time.Duration
 
+	k := 0
+	//fl := 0
+	//no_of_words, err := strconv.Atoi(os.Args[1])
+	runtime.GC()
+	PrintMemUsage()
 	for i := 0; i < len(sites); i++ {
 		sentence := strings.Split(sites[i].Body, " ")
 		for j := 0; j < len(sentence); j++ {
 			sentence[j] = strings.ToLower(sentence[j])
 			matched, _ := regexp.MatchString(`^[a-z]*$`, sentence[j])
 			// fmt.Println(matched, sentence[j])
-			t1 := time.Now()
+
 			if matched {
 				radixTree.Insert(sentence[j])
+				k++
 			}
-			t2 := time.Now()
-			elapsed := t2.Sub(t1)
-			sum += elapsed
 		}
 	}
+	PrintMemUsage()
 
 	//t1 := time.Now()
 /*
-	no_of_words, err := strconv.Atoi(os.Args[1])
-	k := 0
-	fl := 0
+	k = 0
+	fl = 0
 	for i := 0; i < len(sites); i++ {
 		sentence := strings.Split(sites[i].Body, " ")
 		for j := 0; j < len(sentence); j++ {
 			sentence[j] = strings.ToLower(sentence[j])
 			matched, _ := regexp.MatchString(`^[a-z]*$`, sentence[j])
 			if matched {
+				t1 := time.Now()
 				radixTree.Find(sentence[j])
+				t2 := time.Now()
+				elapsed := t2.Sub(t1)
+				sum += elapsed
 				k++
 				if k >= no_of_words {
 					fl = 1

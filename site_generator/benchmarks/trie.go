@@ -6,9 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
-//	"strconv"
+	"runtime"
 	"strings"
-	"time"
 )
 
 type Site struct {
@@ -38,6 +37,20 @@ func initTrie() *trie {
 	return &trie{
 		root: &trieNode{},
 	}
+}
+
+func PrintMemUsage() {
+        var m runtime.MemStats
+        runtime.ReadMemStats(&m)
+        // For info on each, see: https://golang.org/pkg/runtime/#MemStats
+        fmt.Printf("Alloc = %v MiB", bToMb(m.Alloc))
+        fmt.Printf("\tTotalAlloc = %v MiB", bToMb(m.TotalAlloc))
+        fmt.Printf("\tSys = %v MiB", bToMb(m.Sys))
+        fmt.Printf("\tNumGC = %v\n", m.NumGC)
+}
+
+func bToMb(b uint64) uint64 {
+    return b / 1024 / 1024
 }
 
 func (t *trie) insert(word string) {
@@ -81,47 +94,54 @@ func main() {
 	json.Unmarshal(byteValue, &sites)
 
 	trie := initTrie()
-	var sum time.Duration
-
+//	no_of_words, err := strconv.Atoi(os.Args[1])
+	PrintMemUsage()
 	for i := 0; i < len(sites); i++ {
 		sentence := strings.Split(sites[i].Body, " ")
 		for j := 0; j < len(sentence); j++ {
 			sentence[j] = strings.ToLower(sentence[j])
 			matched, _ := regexp.MatchString(`^[a-z]*$`, sentence[j])
 			// fmt.Println(matched, sentence[j])
-			t1 := time.Now()
+			// t1 := time.Now()
 			if matched {
 				trie.insert(sentence[j])
 			}
-			t2 := time.Now()
-			elapsed := t2.Sub(t1)
-			sum += elapsed
+			// t2 := time.Now()
+			// elapsed := t2.Sub(t1)
+			// sum += elapsed
 		}
 	}
+	runtime.GC()
+	PrintMemUsage()
 
 //	t1 := time.Now()
-/*	no_of_words, err := strconv.Atoi(os.Args[1])
-	k := 0
-	fl := 0
-	for i := 0; i < len(sites); i++ {
-		sentence := strings.Split(sites[i].Body, " ")
-		for j := 0; j < len(sentence); j++ {
-			sentence[j] = strings.ToLower(sentence[j])
-			matched, _ := regexp.MatchString(`^[a-z]*$`, sentence[j])
-			if matched {
-				trie.find(sentence[j])
-				k++
-				if k >= no_of_words {
-					fl = 1
-					break
-				}
-			}
-		}
-		if fl == 1 {
-			break
-		}
-	}*/
-	fmt.Println(sum)
-//	t2 := time.Now()
-//	fmt.Println(elapsed)
+
+//	k = 0
+//	fl = 0
+//	for i := 0; i < len(sites); i++ {
+//		sentence := strings.Split(sites[i].Body, " ")
+//		for j := 0; j < len(sentence); j++ {
+//			sentence[j] = strings.ToLower(sentence[j])
+//			matched, _ := regexp.MatchString(`^[a-z]*$`, sentence[j])
+
+//			if matched {
+//				t1 := time.Now()
+//				trie.find(sentence[j])
+//				t2 := time.Now()
+//				elapsed := t2.Sub(t1)
+//				sum += elapsed
+//				k++
+//				if k >= no_of_words {
+//					fl = 1
+//					break
+//				}
+//			}
+//		}
+//		if fl == 1 {
+//			break
+//		}
+//	}
+//	fmt.Println(sum)
+	//	t2 := time.Now()
+	//	fmt.Println(elapsed)
 }
